@@ -1,5 +1,6 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
+import { CirclePlus } from "lucide-react";
 
 interface ColumnProps {
   id: string;
@@ -10,24 +11,27 @@ interface ColumnProps {
 
 const Column: React.FC<ColumnProps> = ({ id, title, totalTasks, children }) => {
   return (
-    <div className="flex flex-col w-80 bg-slate-200 p-3 rounded-t-md">
-      <div className="flex items-center h-10 px-2">
-        <span className="block text-sm font-semibold">{title}</span>
-        <span className="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-indigo-500 bg-white rounded">
-          {totalTasks}
-        </span>
-        <button className="flex items-center justify-center w-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          ></svg>
-        </button>
+    <div className="flex-1 m-2 rounded-xl">
+      <div className="flex flex-1 text-stone-500 text-xl font-semibold justify-between py-2 pr-4 pl-1">
+        <h1>{title}</h1>
+        <span className="">{totalTasks}</span>
+        <CirclePlus />
       </div>
 
-      <div className="flex flex-col pb-2 bg-slate-200 h-full overflow-auto">
+      <div className="flex flex-col mx-2 bg-stone-50 rounded-lg mb-2">
         {children}
+        <div
+          id="card_1"
+          className="flex flex-col mx-2 py-3 items-center bg-stone-100 rounded-lg shadow-sm border-2 border-dashed border-stone-200 mb-2"
+        >
+          <div
+            id="card_header_1"
+            className="flex flex-1 w-full items-center justify-center text-stone-500 font-extrabold"
+          >
+            <CirclePlus size={30} />
+            <span className="ml-3 text-xl">Add Task</span>
+          </div>
+        </div>
       </div>
     </div>
   );

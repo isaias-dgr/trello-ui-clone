@@ -19,8 +19,8 @@ import {
   arrayMove,
   rectSortingStrategy,
 } from "@dnd-kit/sortable";
-import Column from "../Column/Column";
-import Cards from "../Cards/Cards";
+import Column from "../../components/Column/Column";
+import Cards from "../../components/Cards/Cards";
 
 const GET_ALL_TASKS = gql`
   query {
@@ -302,47 +302,49 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-grow px-10 mt-4 space-x-6 overflow-auto ">
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        onDragMove={handleDragMove}
-      >
-        {Object.keys(items).map((item) => (
-          <SortableContext
-            items={items[item].tasks}
-            strategy={rectSortingStrategy}
-          >
-            <Column
-              key={items[item].id}
-              id={items[item].id}
-              title={items[item].label}
-              totalTasks={items[item].tasks.length}
+    <>
+      <div id="content" className="flex flex-1 w-full mt-2">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCorners}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          onDragMove={handleDragMove}
+        >
+          {Object.keys(items).map((item) => (
+            <SortableContext
+              items={items[item].tasks}
+              strategy={rectSortingStrategy}
             >
-              {items[item].tasks.length === 0 && (
-                <Cards key={-1} id={items[item].id} title="" />
-              )}
-              {items[item].tasks.map((task: any) => (
-                <Cards key={task.id} {...task} />
-              ))}
-            </Column>
-          </SortableContext>
-        ))}
+              <Column
+                key={items[item].id}
+                id={items[item].id}
+                title={items[item].label}
+                totalTasks={items[item].tasks.length}
+              >
+                {items[item].tasks.length === 0 && (
+                  <Cards key={-1} id={items[item].id} title="" />
+                )}
+                {items[item].tasks.map((task: any) => (
+                  <Cards key={task.id} {...task} />
+                ))}
+              </Column>
+            </SortableContext>
+          ))}
 
-        <DragOverlay>
-          {activeId ? (
-            <Cards
-              key={activeId}
-              id={activeId}
-              title={getTask(activeId)?.title || ""}
-              {...getTask(activeId)}
-            />
-          ) : null}
-        </DragOverlay>
-      </DndContext>
-    </div>
+          <DragOverlay>
+            {activeId ? (
+              <Cards
+                key={activeId}
+                id={activeId}
+                title={getTask(activeId)?.title || ""}
+                {...getTask(activeId)}
+              />
+            ) : null}
+          </DragOverlay>
+        </DndContext>
+      </div>
+    </>
   );
 };
 

@@ -1,57 +1,42 @@
-import React, { useContext, ReactNode } from "react";
+import React, { ReactNode, useContext } from "react";
 import { SidebarContext } from "./SideBar";
 
 interface SidebarItemProps {
   icon: ReactNode;
   text: string;
-  active?: boolean;
+  value: string;
   alert?: boolean;
 }
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
   icon,
   text,
-  active,
+  value,
   alert,
 }) => {
+  const css_general = `m-2 flex rounded-lg py-2 items-center justify-between font-semibold `;
+  const css_hover = `hover:bg-blue-300 `;
+  const css_active = `bg-stone-300 `;
+
   const sidebarContext = useContext(SidebarContext);
   if (!sidebarContext) {
     throw new Error("ThemeSwitcher must be used within a ThemeProvider");
   }
-  const { expanded } = sidebarContext;
+  const ctx = sidebarContext;
+
   return (
     <li
-      className={`
-        relative flex items-center py-2 px-3 my-1
-        font-mediumm rounded-md cursor-pointer transition-colors group
-        ${
-          active
-            ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-            : "hover:bg-indigo-50 text-gray-600"
-        }`}
+      className="mb-4 mt-2 w-full flex-1"
+      onClick={() => ctx.changeActive(value)}
     >
-      {icon}
-      <span
-        className={`overflow-hidden transition-all ${
-          expanded ? "w-52 ml-3" : "w-0"
-        }`}
+      <div
+        className={
+          css_general + css_hover + (ctx.active === value ? css_active : "")
+        }
       >
-        {" "}
-        {text}
-      </span>
-      {alert && (
-        <div
-          className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
-            expanded ? "" : "top-2"
-          }`}
-        ></div>
-      )}
-
-      {!expanded && (
-        <div className="absolute left-full rounded-md px-2 py-1 ml-6 bg-indigo-100 text-indigo-800 text-sm invisible opacity-20 -traslate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
-          {text}
-        </div>
-      )}
+        <span className="px-2 font-bold">{icon}</span>
+        <span className="flex-1 pl-2">{text}</span>
+      </div>
     </li>
   );
 };
