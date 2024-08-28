@@ -1,17 +1,10 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  Blocks,
-  Calendar,
-  Dumbbell,
-  MessageSquareMore,
-  MessageSquareText,
-  Paperclip,
-  Weight,
-} from "lucide-react";
-import clsx from "clsx";
-import { daysToWeeks, formatDistance, subDays } from "date-fns";
+import { Calendar, MessageSquareText, Paperclip, Weight } from "lucide-react";
+
+import { formatDistance } from "date-fns";
+import Tag from "../Tag/Tag";
 
 interface UserProps {
   id: number;
@@ -94,12 +87,8 @@ const Cards: React.FC<CardsProps> = ({
           <span className="text-stone-500">{id.slice(-5)}:</span> {title}
         </h1>
         <div id="card_header_1" className="flex  w-full justify-end">
-          <span className="ml-2 rounded-lg border-2 border-red-500 bg-red-400 text-stone-50 py-1 px-2 text-xs font-semibold">
-            high
-          </span>
-          <span className="ml-2 rounded-lg border-2 border-green-500 bg-green-400 text-stone-50 py-1 px-2 text-xs font-semibold capitalize ">
-            {depto}
-          </span>
+          <Tag label="High" color="red" fill="red" />
+          <Tag label={depto || ""} color="green" fill="green" />
         </div>
       </div>
 
